@@ -1,0 +1,9 @@
+node_modules
+.next
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+# large downloaded map data (see scripts/get-offline-map.ps1)
+public/map/*.pmtiles
+# test logs
+test-results/

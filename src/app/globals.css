@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/*
+  Design tokens. Dark is the default identity (premium adventure: charcoal surfaces, orange accent).
+  Light mode is the same palette inverted. Pages use the semantic names (bg-surface, text-muted ...),
+  never raw colours, so one switch re-themes everything. Contrast of these pairs is enforced by
+  tests/unit/theme-contrast.test.ts, which fails if any text becomes hard to read.
+*/
+:root {
+  color-scheme: dark;
+  --canvas: #12161b;
+  --surface: #242b33;
+  --sunken: #1a2027;
+  --line: #343e49;
+  --line-strong: #6c7a89;
+  --fg: #f3f5f7;
+  --muted: #a7b2bf;
+  --subtle: #8794a3;
+  --accent: #f97316;
+  --accent-strong: #ea580c;
+  --on-accent: #0b1220;
+  --link: #fb923c;
+  --success-bg: #12331f;
+  --success-fg: #4ade80;
+  --warn-bg: #3a2a0b;
+  --warn-fg: #fbbf24;
+  --danger-bg: #3d1717;
+  --danger-fg: #f87171;
+  --road: #0c1015;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --canvas: #f6f7f9;
+  --surface: #ffffff;
+  --sunken: #f1f5f9;
+  --line: #e2e8f0;
+  --line-strong: #7f8ea3;
+  --fg: #0b1220;
+  --muted: #475569;
+  --subtle: #5a687b;
+  --accent: #f97316;
+  --accent-strong: #ea580c;
+  --on-accent: #0b1220;
+  --link: #c2410c;
+  --success-bg: #dcfce7;
+  --success-fg: #166534;
+  --warn-bg: #fef3c7;
+  --warn-fg: #92400e;
+  --danger-bg: #fee2e2;
+  --danger-fg: #991b1b;
+  --road: #111827;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-on-accent: var(--on-accent);
+  --color-link: var(--link);
+  --color-success-bg: var(--success-bg);
+  --color-success-fg: var(--success-fg);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-fg: var(--warn-fg);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-fg: var(--danger-fg);
+  --color-road: var(--road);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-manrope), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Brand constants that do not change with the theme */
+@theme {
+  --color-saffron: #f97316;
+  --color-saffron-dark: #ea580c;
+  --color-ink: #0b1220;
+}
+
+@utility tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { background: var(--canvas); color: var(--fg); font-family: var(--font-sans); }
+  h1, h2, h3 { font-family: var(--font-display); }
+
+  /* Native form controls follow the theme and are at least 44px tall (comfortable touch target). */
+  input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), select, textarea {
+    background: var(--sunken);
+    color: var(--fg);
+    min-height: 44px;
+  }
+  input::placeholder { color: var(--subtle); }
+  button, [type="submit"] { min-height: 44px; cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rise { animation: rise 0.6s ease-out both; }
+.rise-2 { animation: rise 0.6s ease-out 0.12s both; }
+.rise-3 { animation: rise 0.7s ease-out 0.24s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .rise-2, .rise-3 { animation: none; }
+  html { scroll-behavior: auto; }
+}
